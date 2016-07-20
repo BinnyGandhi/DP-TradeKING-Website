@@ -19,6 +19,33 @@
 </head>
 <body>
 
+<div class="mdl-grid">
+
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone"></div>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell--middle">
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="user" pattern="\w[\w\s]*">
+                <label class="mdl-textfield__label" for="user">User name</label>
+                <span class="mdl-textfield__error">Don't start with space</span>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="password" id="password">
+                <label class="mdl-textfield__label" for="password">Password</label>
+                <!--<span class="mdl-textfield__error">Don't start with space</span>-->
+            </div>
+            <div class="mdl-grid">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Log in
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone"></div>
+
+</div>
 
 </body>
 </html>
