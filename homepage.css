@@ -1,0 +1,26 @@
+body {
+    font-family: Helvetica, serif;
+    background: #eee;
+}
+
+.demo-card-wide.mdl-card {
+    width: 412px;
+}
+
+.mdl-card {
+    padding: 25px 20px 35px;
+}
+
+.mdl-textfield {
+    width: 400px;
+}
+
+.mdl-textfield__input {
+    color: #636363;
+    font-size: 24px;
+}
+
+.mdl-textfield__label {
+    color: #999;
+    font-size: 16px;
+}
