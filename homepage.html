@@ -10,22 +10,24 @@
     <script src="jquery-2.2.2.min.js"></script>
 
     <!--Include Material Design Libraries-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <link rel="stylesheet" href="materialDesign/fonts.css">
+    <link rel="stylesheet" href="materialDesign/material.indigo-red.min.css">
+    <script defer src="materialDesign/material.min.js"></script>
 
     <!--Include Stylesheet-->
     <link rel="stylesheet" href="homepage.css">
 
     <!--Include javaScript-->
-    <script src="homepage.js"></script>
+    <script src="dashboard.js"></script>
 </head>
 <body>
 
 <div class="mdl-grid">
-
     <div class="mdl-cell mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet">
-        <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 10px">
+        <p id="companyName"><span class="mdl-typography--font-bold">DP</span> Trade<span
+                class="mdl-typography--font-bold">KING</span></p>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+
             <span class="mdl-textfield__error" id="wrongUsernamePassword">Wrong User name or password</span>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
                 <input class="mdl-textfield__input" type="text" id="username" pattern="\w[\w\s]*">
@@ -37,16 +39,13 @@
                 <label class="mdl-textfield__label" for="password">Password</label>
                 <span class="mdl-textfield__error" id="wrongPassword">Incorrect password</span>
             </div>
-            <!--<div class="mdl-grid">-->
+
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-cell--middle"
                     onclick="loginValidation()">
                 Log in
             </button>
-            <!--</div>-->
-
         </div>
     </div>
-
 </div>
 
 </body>

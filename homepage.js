@@ -39,7 +39,7 @@ function loginValidation() {
                     if (result.status === '200') {
                         localStorage.setItem('token', result.message);
                         //ToDo: page redirection
-                        window.location.replace('');
+                        window.location.replace('headOffice.html');
                     }
                     else {
                         //ToDo: if result.message != '200'
