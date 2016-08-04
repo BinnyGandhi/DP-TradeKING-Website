@@ -1,0 +1,60 @@
+#waterfall-exp {
+    padding-right: 0;
+}
+
+.mdl-layout__header {
+    background-color: #303F9F;
+}
+
+.mdl-navigation > .mdl-navigation__link {
+    font-weight: 500;
+}
+
+.mdl-navigation__link:hover {
+    background-color: rgba(31, 31, 31, 0.1);
+}
+
+.mdl-navigation__link:focus {
+    color: #fff;
+    font-weight: 400;
+    background-color: rgba(31, 31, 31, 0.4);
+}
+
+.mdl-layout__content {
+    display: block;
+}
+
+.mdl-menu__item {
+    height: 40px;
+    line-height: 40px;
+}
+
+.mdl-menu {
+    padding: 0;
+}
+
+.mdl-layout__drawer {
+    background-color: #fff;
+}
+
+.mdl-layout__drawer > .mdl-navigation > .mdl-navigation__link {
+    color: black;
+}
+
+.mdl-layout__tab-bar {
+    background-color: #fff;
+    /*height: 48px;*/
+    width: 100%;
+}
+
+.mdl-layout__tab-bar-button {
+    background-color: #fff;
+}
+
+.mdl-layout__tab {
+    color: #212121;
+}
+
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+    color: #303F9F;
+}

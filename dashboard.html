@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DP TradeKING</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <!--Include jQuery Library-->
+    <script src="jquery-2.2.2.min.js"></script>
+
+    <!--Include Material Design Libraries-->
+    <link rel="stylesheet" href="materialDesign/fonts.css">
+    <link rel="stylesheet" href="materialDesign/material.indigo-red.min.css">
+    <script defer src="materialDesign/material.min.js"></script>
+
+    <!--Include Handlebars librabry-->
+    <script src="materialDesign/handlebars-4.0.5.js"></script>
+
+    <!--Include custom css-->
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="page-content.css">
+
+    <!--Include custom javaScript-->
+    <script src="dashboard.js"></script>
+
+    <!--Include json file for branches-->
+    <script src="json/branches.js"></script>
+    <script src="json/head-office.js"></script>
+    <script src="json/sub-brokers.js"></script>
+</head>
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout-icon mdl-layout--small-screen-only"></div>
+        <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer mdl-layout--small-screen-only"></div>
+            <span class="mdl-layout__title"><span class="mdl-typography--font-bold">DP</span> Trade<span
+                    class="mdl-typography--font-bold mdl-typography--text-uppercase">King</span></span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Head Office</a>
+                <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Branches</a>
+                <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Sub Brokers</a>
+            </nav>
+            <button id="demo-menu-lower-right"
+                    class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                for="demo-menu-lower-right">
+                <li class="mdl-menu__item">Log Out</li>
+            </ul>
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect"></div>
+    </header>
+    <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Head Office</a>
+            <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Branches</a>
+            <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Sub Brokers</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content"></main>
+</div>
+</body>
+
+<!--Handle bar Template-->
+<!--Head Office Template-->
+<script id="handlebars-headoffice-template" type="text/x-handlebars-template">
+    <dp-header>
+        {{#each message}}
+        <a href="#scroll-tab-head-office-{{@index}}"
+           class="mdl-layout__tab  {{#if @first}}is-active{{/if}}">{{alias}}</a>
+        {{/each}}
+    </dp-header>
+    <dp-content>
+        {{#each message}}
+        <section class="mdl-layout__tab-panel {{#if @first}}is-active{{/if}}" id="scroll-tab-head-office-{{@index}}">
+            <div class="page-content">
+                <div class="mdl-grid">
+                    {{#each executives}}
+                    <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <ul class="demo-list-icon mdl-list">
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">account_box</i>{{name}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">work</i>{{designation}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_phone</i>{{contactNumber}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_mail</i>{{email}}
+                </span>
+                                </li>
+
+                            </ul>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact-{{id}}"
+                                        type="button" onclick="deleteContact('{{id}}')">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                                <dialog class="mdl-dialog dialog-{{id}}">
+                                    <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
+                                        delete {{name}} contact?
+                                    </div>
+                                    <div class="mdl-dialog__actions">
+                                        <button type="button" class="mdl-button">Yes</button>
+                                        <button type="button" class="mdl-button close">No</button>
+                                    </div>
+                                </dialog>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </section>
+        {{/each}}
+    </dp-content>
+</script>
+
+<!--Branches Template-->
+<script id="handlebars-branches-template" type="text/x-handlebars-template">
+    <dp-header>
+        {{#each message}}
+        <a href="#scroll-tab-branches-{{@index}}" class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alias}}</a>
+        {{/each}}
+    </dp-header>
+    <dp-content>
+        {{#each message}}
+        <section class="mdl-layout__tab-panel {{#if @first}}is-active{{/if}}" id="scroll-tab-branches-{{@index}}">
+            <div class="page-content">
+                <div class="mdl-grid">
+                    {{#each executives}}
+                    <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <ul class="demo-list-icon mdl-list">
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">account_box</i>{{name}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">work</i>{{designation}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_phone</i>{{contactNumber}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_mail</i>{{email}}
+                </span>
+                                </li>
+                            </ul>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                                <dialog class="mdl-dialog">
+                                    <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
+                                        delete 'Binny Gandhi' contact?
+                                    </div>
+
+                                    <div class="mdl-dialog__actions">
+                                        <button type="button" class="mdl-button">Yes</button>
+                                        <button type="button" class="mdl-button close">No</button>
+                                    </div>
+                                </dialog>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </section>
+        {{/each}}
+    </dp-content>
+</script>
+
+<!--Sub Brokers Template-->
+<script id="handlebars-subbrokers-template" type="text/x-handlebars-template">
+    <dp-header>
+        {{#each message}}
+        <a href="#scroll-tab-sub-brokers-{{@index}}"
+           class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alias}}</a>
+        {{/each}}
+    </dp-header>
+    <dp-content>
+        {{#each message}}
+        <section class="mdl-layout__tab-panel {{#if @first}}is-active{{/if}}" id="scroll-tab-sub-brokers-{{@index}}">
+            <div class="page-content">
+                {{#each executives}}
+                <p style="background-color: rgba(31, 31, 31,0.4)">{{name}}</p>
+                {{/each}}
+            </div>
+        </section>
+        {{/each}}
+    </dp-content>
+</script>
+
+</html>
