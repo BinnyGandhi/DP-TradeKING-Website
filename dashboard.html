@@ -11,7 +11,7 @@
 
     <!--Include Material Design Libraries-->
     <link rel="stylesheet" href="materialDesign/fonts.css">
-    <link rel="stylesheet" href="materialDesign/material.indigo-red.min.css">
+    <link rel="stylesheet" href="materialDesign/material.indigo-pink.min.css">
     <script defer src="materialDesign/material.min.js"></script>
 
     <!--Include Handlebars librabry-->
@@ -32,21 +32,31 @@
 <body>
 
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-        <div class="mdl-layout-icon mdl-layout--small-screen-only"></div>
+    <header class="mdl-layout__header mdl-layout__header--scroll">
+        <div class="mdl-layout-icon mdl-layout--small-screen-only" id="drawer-icon"></div>
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer mdl-layout--small-screen-only"></div>
             <span class="mdl-layout__title"><span class="mdl-typography--font-bold">DP</span> Trade<span
                     class="mdl-typography--font-bold mdl-typography--text-uppercase">King</span></span>
             <div class="mdl-layout-spacer"></div>
+
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Head Office</a>
                 <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Branches</a>
                 <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Sub Brokers</a>
             </nav>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
+                    <i class="material-icons" id="search-icon">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="sample6">
+                    <label class="mdl-textfield__label">Expandable Input</label>
+                </div>
+            </div>
             <button id="demo-menu-lower-right"
                     class="mdl-button mdl-js-button mdl-button--icon">
-                <i class="material-icons">more_vert</i>
+                <i class="material-icons" id="log-out-icon">more_vert</i>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                 for="demo-menu-lower-right">
@@ -64,6 +74,10 @@
     </div>
     <main class="mdl-layout__content"></main>
 </div>
+<button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+        id="lower-right-button">
+    <i class="material-icons">add</i>
+</button>
 </body>
 
 <!--Handle bar Template-->
@@ -110,16 +124,64 @@
 
                             </ul>
                             <div class="mdl-card__menu">
-                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect edit-contact-{{id}}"
+                                        type="button" onclick="editContact('{{id}}')">
                                     <i class="material-icons">edit</i>
                                 </button>
+                                <dialog class="mdl-dialog dialog-edit-{{id}}">
+                                    <!--Name-->
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                        <input class="mdl-textfield__input" type="text" id="name" pattern="\w[\w\s]*"
+                                               value="{{name}}">
+                                        <label class="mdl-textfield__label" for="name">Name</label>
+                                        <span class="mdl-textfield__error" id="wrongName">Incorrect Name</span>
+                                    </div>
+
+                                    <!--Designation-->
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                        <input class="mdl-textfield__input" type="text" id="designation"
+                                               pattern="\w[\w\s]*"
+                                               value="{{designation}}">
+                                        <label class="mdl-textfield__label" for="designation">Designation</label>
+                                        <span class="mdl-textfield__error"
+                                              id="wrongDesignation">Incorrect Designation</span>
+                                    </div>
+
+                                    <!--Contact Number-->
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                        <input class="mdl-textfield__input" type="tel" id="contactNumber"
+                                               pattern="(+91|91|0)?(7|8|9)\d{9}"
+                                               value="{{contactNumber}}">
+                                        <label class="mdl-textfield__label" for="contactNumber">Contact Number</label>
+                                        <span class="mdl-textfield__error" id="wrongContactNumber">Incorrect Contact Number</span>
+                                    </div>
+
+                                    <!--Email-->
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                        <input class="mdl-textfield__input" type="email" id="email"
+                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}"
+                                               value="{{email}}">
+                                        <label class="mdl-textfield__label" for="email">Email</label>
+                                        <span class="mdl-textfield__error" id="wrongEmail">Incorrect Email</span>
+                                    </div>
+
+                                    <div class="mdl-dialog__actions">
+                                        <button type="button" class="mdl-button close">
+                                            Cancel
+                                        </button>
+                                        <button type="button" class="mdl-button">
+                                            Update
+                                        </button>
+                                    </div>
+                                </dialog>
+
                                 <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact-{{id}}"
                                         type="button" onclick="deleteContact('{{id}}')">
                                     <i class="material-icons">delete</i>
                                 </button>
-                                <dialog class="mdl-dialog dialog-{{id}}">
+                                <dialog class="mdl-dialog dialog-delete-{{id}}">
                                     <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
-                                        delete {{name}} contact?
+                                        remove {{name}} contact?
                                     </div>
                                     <div class="mdl-dialog__actions">
                                         <button type="button" class="mdl-button">Yes</button>
@@ -181,14 +243,14 @@
                                 <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
                                     <i class="material-icons">edit</i>
                                 </button>
-                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact-{{id}}"
+                                        type="button" onclick="deleteContact('{{id}}')">
                                     <i class="material-icons">delete</i>
                                 </button>
-                                <dialog class="mdl-dialog">
+                                <dialog class="mdl-dialog dialog-{{id}}">
                                     <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
-                                        delete 'Binny Gandhi' contact?
+                                        remove {{name}} contact?
                                     </div>
-
                                     <div class="mdl-dialog__actions">
                                         <button type="button" class="mdl-button">Yes</button>
                                         <button type="button" class="mdl-button close">No</button>
@@ -207,23 +269,70 @@
 
 <!--Sub Brokers Template-->
 <script id="handlebars-subbrokers-template" type="text/x-handlebars-template">
+
     <dp-header>
         {{#each message}}
-        <a href="#scroll-tab-sub-brokers-{{@index}}"
-           class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alias}}</a>
+        <a href="#scroll-tab-branches-{{@index}}" class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alias}}</a>
         {{/each}}
     </dp-header>
     <dp-content>
         {{#each message}}
         <section class="mdl-layout__tab-panel {{#if @first}}is-active{{/if}}" id="scroll-tab-sub-brokers-{{@index}}">
             <div class="page-content">
-                {{#each executives}}
-                <p style="background-color: rgba(31, 31, 31,0.4)">{{name}}</p>
-                {{/each}}
+                <div class="mdl-grid">
+                    {{#each executives}}
+                    <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <ul class="demo-list-icon mdl-list">
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">account_box</i>{{name}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">work</i>{{designation}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_phone</i>{{contactNumber}}
+                </span>
+                                </li>
+
+                                <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">contact_mail</i>{{email}}
+                </span>
+                                </li>
+                            </ul>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect delete-contact-{{id}}"
+                                        type="button" onclick="deleteContact('{{id}}')">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                                <dialog class="mdl-dialog dialog-{{id}}">
+                                    <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
+                                        remove {{name}} contact?
+                                    </div>
+                                    <div class="mdl-dialog__actions">
+                                        <button type="button" class="mdl-button">Yes</button>
+                                        <button type="button" class="mdl-button close">No</button>
+                                    </div>
+                                </dialog>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
             </div>
         </section>
         {{/each}}
     </dp-content>
 </script>
-
 </html>

@@ -14,7 +14,7 @@
     background-color: rgba(31, 31, 31, 0.1);
 }
 
-.mdl-navigation__link:focus {
+.dp-navigation__focus {
     color: #fff;
     font-weight: 400;
     background-color: rgba(31, 31, 31, 0.4);
@@ -22,6 +22,7 @@
 
 .mdl-layout__content {
     display: block;
+    flex-shrink: 0;
 }
 
 .mdl-menu__item {
@@ -38,7 +39,7 @@
 }
 
 .mdl-layout__drawer > .mdl-navigation > .mdl-navigation__link {
-    color: black;
+    color: #000;
 }
 
 .mdl-layout__tab-bar {
@@ -57,4 +58,19 @@
 
 .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
     color: #303F9F;
+}
+
+#log-out-icon, #search-icon, #lower-right-button > i {
+    color: #FFF;
+}
+
+.mdl-layout__content {
+    color: #1f1f1f;
+}
+
+#lower-right-button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1;
 }
