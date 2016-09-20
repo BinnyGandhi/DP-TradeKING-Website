@@ -10,9 +10,9 @@
     <script src="jquery-2.2.2.min.js"></script>
 
     <!--Include Material Design Libraries-->
-    <link rel="stylesheet" href="materialDesign/fonts.css">
-    <link rel="stylesheet" href="materialDesign/material.indigo-pink.min.css">
     <script defer src="materialDesign/material.min.js"></script>
+    <link rel="stylesheet" href="materialDesign/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="materialDesign/fonts.css">
 
     <!--Include Handlebars librabry-->
     <script src="materialDesign/handlebars-4.0.5.js"></script>
@@ -24,10 +24,12 @@
     <!--Include custom javaScript-->
     <script src="dashboard.js"></script>
 
+    <!--Include config javaScript-->
+    <script src="config.js"></script>
+
     <!--Include json file for branches-->
     <script src="json/branches.js"></script>
     <script src="json/head-office.js"></script>
-    <script src="json/sub-brokers.js"></script>
 </head>
 <body>
 
@@ -45,15 +47,7 @@
                 <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Branches</a>
                 <a class="mdl-navigation__link" href="#" onclick="mainTabHandler(this)">Sub Brokers</a>
             </nav>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                <label class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
-                    <i class="material-icons" id="search-icon">search</i>
-                </label>
-                <div class="mdl-textfield__expandable-holder">
-                    <input class="mdl-textfield__input" type="text" id="sample6">
-                    <label class="mdl-textfield__label">Expandable Input</label>
-                </div>
-            </div>
+
             <button id="demo-menu-lower-right"
                     class="mdl-button mdl-js-button mdl-button--icon">
                 <i class="material-icons" id="log-out-icon">more_vert</i>
@@ -74,10 +68,85 @@
     </div>
     <main class="mdl-layout__content"></main>
 </div>
-<button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
-        id="lower-right-button">
-    <i class="material-icons">add</i>
-</button>
+
+<!--Add button-->
+
+<div id="fab-options">
+    <button type="button"
+            class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored add-contact"
+            id="lower-right-button" onclick="addContact()">
+        <i class="material-icons">add</i>
+    </button>
+</div>
+
+<!--fab-options-template-->
+<!--fab-options-for-head-office-->
+<script id="fab-head-office-options" type="text/x-handlebars-template">
+    <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
+        data-mdl-for="demo-menu-top-right">
+        <li class="mdl-menu__item">Add Department</li>
+        <li class="mdl-menu__item">Add Member</li>
+    </ul>
+</script>
+
+<!--fab-options-for-branches-->
+<script id="fab-branches-options" type="text/x-handlebars-template">
+    <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
+        data-mdl-for="demo-menu-top-right">
+        <li class="mdl-menu__item">Add Branch</li>
+        <li class="mdl-menu__item">Add Member</li>
+    </ul>
+</script>
+
+<!--Add dialogue-for-subBroker-->
+<dialog class="mdl-dialog dialog-add-contact-for-subBroker">
+    <!--Name-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="name-for-add" pattern="\w[\w\s]*">
+        <label class="mdl-textfield__label" for="name-for-add">Name</label>
+        <span class="mdl-textfield__error">Incorrect Name</span>
+    </div>
+
+    <!--Registration Number-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="regNumber-for-add" pattern="\w*">
+        <label class="mdl-textfield__label" for="regNumber-for-add">Registration Number</label>
+        <span class="mdl-textfield__error">Incorrect Registration Number</span>
+    </div>
+
+    <!--Address-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="address-for-add"
+               pattern="\w[\w\s]*">
+        <label class="mdl-textfield__label" for="address-for-add">Address</label>
+        <span class="mdl-textfield__error">Incorrect Address</span>
+    </div>
+
+    <!--Contact Number-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="tel" id="contact-number-for-add"
+               pattern="(+91|91|0)?(7|8|9)\d{9}">
+        <label class="mdl-textfield__label" for="contactNumber-for-add">Contact Number</label>
+        <span class="mdl-textfield__error">Incorrect Contact Number</span>
+    </div>
+
+    <!--Email-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="email" id="email-for-add"
+               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}">
+        <label class="mdl-textfield__label" for="email-for-add">Email</label>
+        <span class="mdl-textfield__error">Incorrect Email</span>
+    </div>
+
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button close">
+            Cancel
+        </button>
+        <button type="button" class="mdl-button" onclick="addContactSubBroker()">
+            Add
+        </button>
+    </div>
+</dialog>
 </body>
 
 <!--Handle bar Template-->
@@ -130,39 +199,39 @@
                                 </button>
                                 <dialog class="mdl-dialog dialog-edit-{{id}}">
                                     <!--Name-->
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                         <input class="mdl-textfield__input" type="text" id="name" pattern="\w[\w\s]*"
                                                value="{{name}}">
                                         <label class="mdl-textfield__label" for="name">Name</label>
-                                        <span class="mdl-textfield__error" id="wrongName">Incorrect Name</span>
+                                        <span class="mdl-textfield__error">Incorrect Name</span>
                                     </div>
 
                                     <!--Designation-->
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                         <input class="mdl-textfield__input" type="text" id="designation"
                                                pattern="\w[\w\s]*"
                                                value="{{designation}}">
                                         <label class="mdl-textfield__label" for="designation">Designation</label>
-                                        <span class="mdl-textfield__error"
-                                              id="wrongDesignation">Incorrect Designation</span>
+                                        <span class="mdl-textfield__error">Incorrect Designation</span>
                                     </div>
 
                                     <!--Contact Number-->
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
-                                        <input class="mdl-textfield__input" type="tel" id="contactNumber"
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="tel" id="contactNumber-for-add"
                                                pattern="(+91|91|0)?(7|8|9)\d{9}"
                                                value="{{contactNumber}}">
-                                        <label class="mdl-textfield__label" for="contactNumber">Contact Number</label>
-                                        <span class="mdl-textfield__error" id="wrongContactNumber">Incorrect Contact Number</span>
+                                        <label class="mdl-textfield__label" for="contactNumber-for-add">Contact
+                                            Number</label>
+                                        <span class="mdl-textfield__error">Incorrect Contact Number</span>
                                     </div>
 
                                     <!--Email-->
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--middle">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                         <input class="mdl-textfield__input" type="email" id="email"
                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}"
                                                value="{{email}}">
                                         <label class="mdl-textfield__label" for="email">Email</label>
-                                        <span class="mdl-textfield__error" id="wrongEmail">Incorrect Email</span>
+                                        <span class="mdl-textfield__error">Incorrect Email</span>
                                     </div>
 
                                     <div class="mdl-dialog__actions">
@@ -184,8 +253,8 @@
                                         remove {{name}} contact?
                                     </div>
                                     <div class="mdl-dialog__actions">
-                                        <button type="button" class="mdl-button">Yes</button>
                                         <button type="button" class="mdl-button close">No</button>
+                                        <button type="button" class="mdl-button">Yes</button>
                                     </div>
                                 </dialog>
                             </div>
@@ -247,13 +316,13 @@
                                         type="button" onclick="deleteContact('{{id}}')">
                                     <i class="material-icons">delete</i>
                                 </button>
-                                <dialog class="mdl-dialog dialog-{{id}}">
+                                <dialog class="mdl-dialog dialog-delete-{{id}}">
                                     <div class="mdl-dialog__content" style="color: #1f1f1f">Are you sure you want to
                                         remove {{name}} contact?
                                     </div>
                                     <div class="mdl-dialog__actions">
-                                        <button type="button" class="mdl-button">Yes</button>
                                         <button type="button" class="mdl-button close">No</button>
+                                        <button type="button" class="mdl-button">Yes</button>
                                     </div>
                                 </dialog>
                             </div>
@@ -272,7 +341,8 @@
 
     <dp-header>
         {{#each message}}
-        <a href="#scroll-tab-branches-{{@index}}" class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alias}}</a>
+        <a href="#scroll-tab-branches-{{@index}}"
+           class="mdl-layout__tab {{#if @first}}is-active{{/if}}">{{alphabet}}</a>
         {{/each}}
     </dp-header>
     <dp-content>
@@ -280,7 +350,7 @@
         <section class="mdl-layout__tab-panel {{#if @first}}is-active{{/if}}" id="scroll-tab-sub-brokers-{{@index}}">
             <div class="page-content">
                 <div class="mdl-grid">
-                    {{#each executives}}
+                    {{#each subBrokers}}
                     <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
                         <div class="mdl-card mdl-shadow--2dp">
                             <ul class="demo-list-icon mdl-list">
@@ -290,11 +360,6 @@
                 </span>
                                 </li>
 
-                                <li class="mdl-list__item">
-                <span class="mdl-list__item-primary-content">
-                <i class="material-icons mdl-list__item-icon">work</i>{{designation}}
-                </span>
-                                </li>
 
                                 <li class="mdl-list__item">
                 <span class="mdl-list__item-primary-content">
@@ -321,8 +386,8 @@
                                         remove {{name}} contact?
                                     </div>
                                     <div class="mdl-dialog__actions">
-                                        <button type="button" class="mdl-button">Yes</button>
                                         <button type="button" class="mdl-button close">No</button>
+                                        <button type="button" class="mdl-button">Yes</button>
                                     </div>
                                 </dialog>
                             </div>
